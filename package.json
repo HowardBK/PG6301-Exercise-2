@@ -1,0 +1,28 @@
+{
+  "name": "pg6301-exercise-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "prettier --check .",
+    "prepare": "husky",
+    "test:watch": "vitest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HowardBK/PG6301-Exercise-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/HowardBK/PG6301-Exercise-2/issues"
+  },
+  "homepage": "https://github.com/HowardBK/PG6301-Exercise-2#readme",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "prettier": "^3.9.6",
+    "vitest": "^4.1.11"
+  }
+}
