@@ -114,4 +114,3 @@ test("add only values of 5", () => {
 test("add only values of 6", () => {
   expect(yahtzeeScore("Sixes", [1, 6, 6, 6, 1])).toBe(6 + 6 + 6);
 });
-//How can I find .github/workflows .yml or something to fix the prettier husky on that file...
