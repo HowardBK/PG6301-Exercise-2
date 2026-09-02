@@ -21,6 +21,9 @@ function yahtzeeScore(category, dice) {
   }
   if (category === "Sixes") {
     return sixes(dice);
+  }
+  if (category === "Pair") {
+    return pair(dice);
   } else {
     console.log("Something unexpected happened in yahtzeeScore");
   }
@@ -87,6 +90,18 @@ function sixes(dice) {
   return sum;
 }
 
+function pair(dice) {
+  var sorted = dice.slice().sort((a, b) => b - a);
+  var sum = 0;
+  for (let i = 0; i < sorted.length - 1; i++) {
+    if (sorted[i] === sorted[i + 1]) {
+      sum = sorted[i] += sorted[i + 1];
+      return sum;
+    }
+  }
+  return 0;
+}
+
 test("scoring Chance add all dice", () => {
   expect(yahtzeeScore("Chance", [1, 2, 3, 4, 5])).toBe(1 + 2 + 3 + 4 + 5);
 });
@@ -113,4 +128,12 @@ test("add only values of 5", () => {
 
 test("add only values of 6", () => {
   expect(yahtzeeScore("Sixes", [1, 6, 6, 6, 1])).toBe(6 + 6 + 6);
+});
+
+test("finds highest number of a pair", () => {
+  expect(yahtzeeScore("Pair", [1, 4, 5, 4, 5])).toBe(5 + 5);
+});
+
+test("no pair exists return 0", () => {
+  expect(yahtzeeScore("Pair", [1, 2, 3, 4, 5])).toBe(0);
 });
