@@ -24,6 +24,15 @@ function yahtzeeScore(category, dice) {
   }
   if (category === "Pair") {
     return pair(dice);
+  }
+  if (category === "ThreeOfAKind") {
+    return threeOfAKind(dice);
+  }
+  if (category === "FourOfAKind") {
+    return fourOfAKind(dice);
+  }
+  if (category === "Yahtzee") {
+    return yahtzee(dice);
   } else {
     console.log("Something unexpected happened in yahtzeeScore");
   }
@@ -91,15 +100,57 @@ function sixes(dice) {
 }
 
 function pair(dice) {
-  var sorted = dice.slice().sort((a, b) => b - a);
+  var sorted = sortedDice(dice);
   var sum = 0;
   for (let i = 0; i < sorted.length - 1; i++) {
     if (sorted[i] === sorted[i + 1]) {
-      sum = sorted[i] += sorted[i + 1];
+      sum = sorted[i] + sorted[i + 1];
       return sum;
     }
   }
   return 0;
+}
+function threeOfAKind(dice) {
+  var sorted = sortedDice(dice);
+  var sum = 0;
+  for (let i = 0; i < sorted.length - 1; i++) {
+    if (sorted[i] === sorted[i + 1] && sorted[i + 1] === sorted[i + 2]) {
+      sum = sorted[i] + sorted[i + 1] + sorted[i + 2];
+      return sum;
+    }
+  }
+  return 0;
+}
+function fourOfAKind(dice) {
+  var sorted = sortedDice(dice);
+  var sum = 0;
+  for (let i = 0; i < sorted.length - 1; i++) {
+    if (
+      sorted[i] === sorted[i + 1] &&
+      sorted[i + 1] === sorted[i + 2] &&
+      sorted[i + 2] === sorted[i + 3]
+    ) {
+      sum = sorted[i] + sorted[i + 1] + sorted[i + 2] + sorted[i + 3];
+      return sum;
+    }
+  }
+  return 0;
+}
+
+function yahtzee(dice) {
+  var sum = 0;
+  for (let i = 0; i < dice.length; i++) {
+    if (dice[i] !== dice[0]) {
+      return 0;
+    }
+    //Trenger ikke else her siden hvis if'en intreffer så breaker den ut av loopen og returnerer 0.
+    //Det betyr at den i de tilfellene aldri vil treffe else uansett. Og else er da redundant.
+    sum += dice[i];
+  }
+  return sum;
+}
+function sortedDice(dice) {
+  return dice.slice().sort((a, b) => b - a);
 }
 
 test("scoring Chance add all dice", () => {
@@ -136,4 +187,26 @@ test("finds highest number of a pair", () => {
 
 test("no pair exists return 0", () => {
   expect(yahtzeeScore("Pair", [1, 2, 3, 4, 5])).toBe(0);
+});
+
+test("find 3 of a kind", () => {
+  expect(yahtzeeScore("ThreeOfAKind", [1, 6, 2, 6, 6])).toBe(6 + 6 + 6);
+});
+
+test("no three of a kind exists", () => {
+  expect(yahtzeeScore("ThreeOfAKind", [1, 6, 2, 5, 6])).toBe(0);
+});
+test("find 4 of a kind", () => {
+  expect(yahtzeeScore("FourOfAKind", [5, 6, 5, 5, 5])).toBe(5 + 5 + 5 + 5);
+});
+
+test("no four of a kind exists", () => {
+  expect(yahtzeeScore("FourOfAKind", [5, 6, 2, 5, 6])).toBe(0);
+});
+test("yahtzee! exists", () => {
+  expect(yahtzeeScore("Yahtzee", [6, 6, 6, 6, 6])).toBe(6 + 6 + 6 + 6 + 6);
+});
+
+test("no yahtzee", () => {
+  expect(yahtzeeScore("Yahtzee", [5, 6, 2, 2, 6])).toBe(0);
 });
